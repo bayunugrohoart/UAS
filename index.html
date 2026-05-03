@@ -172,17 +172,41 @@
     .menu-card button {
       margin-top: 10px;
       width: 100%;
-      background-color: #3b2a1a;
-      color: #fdf6ee;
+      background-color: #25d366;
+      color: #fff;
       border: none;
-      padding: 8px;
+      padding: 9px;
       border-radius: 4px;
       font-size: 13px;
+      font-weight: bold;
       cursor: pointer;
     }
 
     .menu-card button:hover {
-      background-color: #5a4030;
+      background-color: #1ebe5d;
+    }
+
+    /* ===== TOMBOL WA MENGAMBANG ===== */
+    .wa-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wa-float:hover {
+      background-color: #1ebe5d;
     }
 
     /* ===== PROMO ===== */
@@ -272,18 +296,19 @@
     }
 
     #kontak form button {
-      background-color: #3b2a1a;
-      color: #fdf6ee;
+      background-color: #25d366;
+      color: #fff;
       border: none;
       padding: 11px;
       border-radius: 4px;
       font-size: 14px;
+      font-weight: bold;
       cursor: pointer;
       font-family: Georgia, serif;
     }
 
     #kontak form button:hover {
-      background-color: #5a4030;
+      background-color: #1ebe5d;
     }
 
     /* ===== FOOTER ===== */
@@ -419,16 +444,21 @@
         IG     : @AsakusaCoffee.id
       </p>
     </div>
-    <form onsubmit="kirimPesan(event)">
+    <form onsubmit="kirimPesanWA(event)">
       <label>Nama Kamu</label>
-      <input type="text" placeholder="Masukkan nama kamu" required/>
-      <label>Email</label>
-      <input type="email" placeholder="email@kamu.com" required/>
-      <label>Pesan / Pertanyaan</label>
-      <textarea placeholder="Tulis pesanmu di sini..."></textarea>
-      <button type="submit">Kirim Pesan</button>
+      <input type="text" id="namaInput" placeholder="Masukkan nama kamu" required/>
+      <label>Nomor HP / WA</label>
+      <input type="tel" id="hpInput" placeholder="Contoh: 08123456789" required/>
+      <label>Menu yang Dipesan</label>
+      <textarea id="pesananInput" placeholder="Contoh: 1 Espresso, 2 Kopi Susu, dll..."></textarea>
+      <button type="submit">&#128205; Pesan via WhatsApp</button>
     </form>
   </section>
+
+  <!-- TOMBOL WA MENGAMBANG -->
+  <a class="wa-float" href="https://wa.me/6281359228539?text=Hallo%20%2C%20saya%20mau%20pesan" target="_blank">
+    &#128172; Chat WhatsApp
+  </a>
 
   <!-- FOOTER -->
   <footer>
@@ -436,13 +466,27 @@
   </footer>
 
   <script>
+    var NOMOR_WA = '6281359228539';
+
     function pesan(nama) {
-      alert('Pesanan "' + nama + '" berhasil ditambahkan!\nSilakan menuju kasir untuk konfirmasi.');
+      var teks = 'Hallo , saya mau pesan ' + nama;
+      var url = 'https://wa.me/' + NOMOR_WA + '?text=' + encodeURIComponent(teks);
+      window.open(url, '_blank');
     }
 
-    function kirimPesan(e) {
+    function kirimPesanWA(e) {
       e.preventDefault();
-      alert('Terima kasih! Pesan kamu sudah kami terima.\nKami akan segera menghubungi kamu.');
+      var nama    = document.getElementById('namaInput').value;
+      var hp      = document.getElementById('hpInput').value;
+      var pesanan = document.getElementById('pesananInput').value;
+
+      var teks = 'Hallo , saya mau pesan'
+               + '\n\nNama   : ' + nama
+               + '\nNo. HP : ' + hp
+               + '\nPesanan: ' + (pesanan || '-');
+
+      var url = 'https://wa.me/' + NOMOR_WA + '?text=' + encodeURIComponent(teks);
+      window.open(url, '_blank');
       e.target.reset();
     }
   </script>
